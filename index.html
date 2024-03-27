@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBTI Chatbot</title>
+</head>
+<body>
+    <h1>Welcome to the MBTI Chatbot!</h1>
+    <form action="/result" method="post">
+        {% for question in questions %}
+            <p>{{ question }}</p>
+            <input type="radio" id="{{ loop.index }}" name="q{{ loop.index }}" value="A">
+            <label for="{{ loop.index }}">A</label>
+            <input type="radio" id="{{ loop.index }}" name="q{{ loop.index }}" value="B">
+            <label for="{{ loop.index }}">B</label>
+        {% endfor %}
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
