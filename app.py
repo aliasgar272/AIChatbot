@@ -10,9 +10,17 @@ def index():
 
 @app.route('/result', methods=['POST'])
 def result():
-    chatbot.run()
-    mbti_type = chatbot.determine_type()
-    return render_template('result.html', mbti_type=mbti_type)
+    if 'response' in request.form:
+        response = request.form['response']
+        chatbot.process_response(response)
+        if chatbot.has_more_questions():
+            question_text = chatbot.get_next_question()
+            return render_template('index.html', question_text=question_text)
+        else:
+            mbti_type = chatbot.determine_type()
+            return render_template('result.html', mbti_type=mbti_type)
+    else:
+        return "Error: 'response' key not found in form data"
 
 if __name__ == '__main__':
     app.run(debug=True)
