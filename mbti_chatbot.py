@@ -17,9 +17,13 @@ class MBTIChatbot:
             "Do you trust your gut feelings and instincts (F) or rely more on logic and reason (T)?",
             "Do you enjoy exploring new ideas and possibilities (N) or prefer to focus on what's practical and achievable (S)?"
         ]
+        self.responses = []
         self.current_question_index = 0
 
     def get_next_question(self):
+        """
+        Get the next question from the list of questions.
+        """
         if self.current_question_index < len(self.questions):
             next_question = self.questions[self.current_question_index]
             self.current_question_index += 1
@@ -27,4 +31,56 @@ class MBTIChatbot:
         else:
             return None
 
-    # Implement other necessary methods like process_response, has_more_questions, determine_type, etc.
+    def process_response(self, response):
+        """
+        Process the user's response and store it in the responses list.
+        """
+        self.responses.append(response)
+
+    def has_more_questions(self):
+        """
+        Check if there are more questions to ask.
+        """
+        return self.current_question_index < len(self.questions)
+
+    def determine_type(self):
+        """
+        Determine the MBTI type based on the user's responses.
+        """
+        if len(self.responses) != len(self.questions):
+            # If all questions have not been answered, return None
+            return None
+        
+        # Analyze the responses and determine the MBTI type
+        extrovert_count = self.responses.count('E')
+        introvert_count = self.responses.count('I')
+        sensing_count = self.responses.count('S')
+        intuition_count = self.responses.count('N')
+        thinking_count = self.responses.count('T')
+        feeling_count = self.responses.count('F')
+        judging_count = self.responses.count('J')
+        perceiving_count = self.responses.count('P')
+
+        mbti_type = ""
+        # Determine the preference for each dimension based on counts
+        if extrovert_count > introvert_count:
+            mbti_type += 'E'
+        else:
+            mbti_type += 'I'
+        
+        if sensing_count > intuition_count:
+            mbti_type += 'S'
+        else:
+            mbti_type += 'N'
+        
+        if thinking_count > feeling_count:
+            mbti_type += 'T'
+        else:
+            mbti_type += 'F'
+        
+        if judging_count > perceiving_count:
+            mbti_type += 'J'
+        else:
+            mbti_type += 'P'
+
+        return mbti_type
